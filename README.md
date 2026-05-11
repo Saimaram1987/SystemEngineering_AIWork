@@ -1,143 +1,148 @@
 # SystemEngineering_AIWork
 
-Automation assets, agent prompts, and QA workflows for system engineering and validation tasks.
+Automation assets, agent prompts, and supporting documentation for system engineering, validation, and QA workflows.
 
 ## Overview
 
-This repository contains agent-driven test specifications and supporting documentation for validating Android-based infotainment and audio-message workflows. The current focus is on automated QA for the DTS AutoStage Audio Messages app, including:
+This repository contains reusable prompt-driven assets for automotive infotainment validation and related system-engineering activities. It currently includes two agent specifications with different purposes:
 
-- installation and service validation
-- consent and AAID verification
-- campaign download and storage checks
-- geo-targeting and eligibility evaluation
-- playback and impression reporting validation
-- negative and edge-case testing
-- emulator-based time-travel tests for expiry and reset behavior
+- a **Welcome Ads project-context assistant** for planning, documentation, requirement interpretation, and test-design support
+- an **Audio Messages QA agent** for execution-focused validation of DTS AutoStage Audio Messages behavior on Android devices and emulator environments
+
+The repository is intended to keep reusable engineering instructions in version control so they can be:
+
+- reviewed and improved over time
+- reused consistently by humans or agents
+- aligned to system requirements and validation goals
+- extended into structured deliverables such as test evidence, reports, and traceability artifacts
 
 ## Repository Purpose
 
-The goal of this repo is to keep repeatable, auditable test instructions in version control so they can be:
+The goal of this repo is to centralize agent-based engineering assets that support:
 
-- reviewed and improved over time
-- executed consistently by humans or agents
-- mapped back to system requirements
-- used to generate structured QA evidence and release-readiness reports
+- test strategy development
+- requirement-driven validation
+- QA workflow standardization
+- reusable prompt and agent design
+- documentation and evidence generation
+
+These assets are meant to help teams work in a repeatable, auditable, and maintainable way across different validation scenarios.
 
 ## Current Contents
 
-### Agent specifications
+### Agent and prompt assets
+- `DTS_AutoStage_WelcomeAds_Assistant.prompt.md`  
+  Project-context assistant focused on DTS AutoStage Welcome Ads test strategy, requirement interpretation, campaign planning, workbook support, and structured engineering deliverables.
+
 - `audio-messages-tester.agent.md`  
-  Autonomous QA agent instructions for testing the DTS AutoStage Audio Messages flow on:
-  - a physical Android device for Suites A–K
-  - an Android Automotive emulator for Suite L
+  Execution-focused QA agent for validating DTS AutoStage Audio Messages / Welcome Ads behavior using ADB, logcat, dumpsys, sqlite, and emulator-based time-travel testing.
 
 ### Documentation
 - `README.md`  
   Repository overview, usage guidance, and maintenance notes.
 
-## Audio Messages QA Agent
+## Agent Summary
 
-The `audio-messages-tester.agent.md` file defines a full validation workflow for the Audio Messages app package:
+### 1. Welcome Ads Assistant
 
-- **Package:** `com.dts.autostage.audiomsgapp`
-- **Primary service:** `com.dts.autostage.audiomsgapp.service.AudioMessagesService`
-- **SDK service:** `com.dts.autostage.sdk.service.AutoStageSDKService`
-- **Activity:** `com.dts.autostage.audiomsgapp.activity.AdActivity`
+The Welcome Ads assistant is designed to help with engineering and documentation tasks such as:
 
-### Test coverage
+- interpreting SY_SRS_4113 requirements
+- drafting or refining test cases
+- supporting campaign and scenario design
+- helping structure strategy documents and timeline workbooks
+- preserving project-specific architecture context and terminology
 
-The agent currently covers the following suites:
+This asset is most useful when the task is analytical, documentation-heavy, or planning-oriented.
 
-- **Suite A** — Installation & Registration
-- **Suite B** — User Consent & AAID
-- **Suite C** — Campaign Download & Storage
-- **Suite D** — Campaign Restrictions
-- **Suite E** — Geo-Targeting
-- **Suite F** — Campaign Updates & Conditional Requests
-- **Suite G** — Ad Selection & Scheduling
-- **Suite H** — Playback
-- **Suite I** — Impressions & Reporting
-- **Suite J** — POI Tracking
-- **Suite K** — Negative & Edge Cases
-- **Suite L** — Time Travel / Campaign Expiry / Midnight Reset (emulator only)
+### 2. Audio Messages QA Agent
+
+The Audio Messages QA agent is designed for execution-oriented validation activities such as:
+
+- discovering and routing between physical and emulator Android targets
+- validating installation, registration, and consent behavior
+- checking campaign download, storage, restrictions, and geo-targeting
+- verifying playback, impression reporting, and negative scenarios
+- running emulator-only time-travel and expiry/reset tests
+- producing structured QA evidence and report-ready outputs
+
+This asset is most useful when the task is operational, test-execution-focused, and evidence-driven.
+
+## Typical Use Cases
+
+You can use this repository for activities such as:
+
+- building or refining infotainment QA workflows
+- generating requirement-linked test cases
+- preparing campaign-validation strategies
+- validating AutoStage audio-message behavior on target devices
+- standardizing agent instructions for repeatable engineering tasks
+- creating inputs for reports, traceability, and release-readiness reviews
 
 ## Prerequisites
 
-Before using the QA agent, make sure the following are available:
+Prerequisites depend on which asset is being used.
 
-### Local tools
+### For documentation and planning tasks
+- access to relevant system requirements and supporting project documents
+- understanding of the target architecture and test objectives
+
+### For execution-based Android QA workflows
 - `adb`
 - `python3`
 - `sqlite3`
 - Android Emulator tooling
+- a connected physical Android device where applicable
+- an Android Automotive emulator where emulator-only scenarios are required
 
-### Devices
-- **Physical Android device** connected through ADB for Suites A–K
-- **Android Automotive emulator** named `Automotive_Ultrawide` for Suite L
+## Safety and Usage Notes
 
-### Environment assumptions
-- The physical device has the DTS AutoStage packages installed
-- The emulator supports `adb root`
-- The emulator contains pre-seeded campaign data in the expected database path
-- Network and log access are available for validation
+Some assets in this repository include environment-specific safety constraints.
 
-## Safety Constraints
+Examples include:
 
-The audio testing workflow contains important device-safety rules.
+- separating physical-device actions from emulator-only actions
+- avoiding destructive operations on production-like devices
+- keeping time manipulation and root-required actions limited to approved emulator environments
 
-### Physical device rules
-The physical device is used for observation only. Do **not** run destructive commands against it.
-
-Forbidden on the physical device:
-- rebooting the device
-- deleting files
-- force-stopping the app
-- clearing app data
-- modifying system time
-
-### Emulator rules
-The emulator is the only allowed target for:
-- clock manipulation
-- `adb root`
-- `am force-stop`
-- network blocking for controlled tests
-- database and preference manipulation for Suite L
+When updating or extending agent files, keep these operational constraints explicit and easy to find.
 
 ## Suggested Repo Structure
 
-As this repository grows, a cleaner structure would be:
+As the repository grows, a cleaner structure could be:
 
 ```text
 .
 ├── README.md
 ├── agents/
 │   └── audio-messages-tester.agent.md
+├── prompts/
+│   └── DTS_AutoStage_WelcomeAds_Assistant.prompt.md
 ├── templates/
-│   ├── audio_messages_report.py
-│   └── audio_messages_report.html
+│   ├── report_template.py
+│   └── report_template.html
 ├── reports/
 │   └── .gitkeep
 └── docs/
-    └── requirements-traceability.md
+    ├── requirements-traceability.md
+    └── conventions.md
 ```
 
 ## Recommended Improvements
 
-This repo will be easier to maintain if the current agent file is split into smaller responsibilities:
+This repository will be easier to maintain if it evolves toward clearer separation of concerns:
 
-1. **Keep agent instructions focused on execution**
-   - device discovery
-   - validation steps
-   - evidence collection
-   - result evaluation
+1. **Group assets by type**
+   - keep execution agents under `agents/`
+   - keep planning/context prompts under `prompts/`
 
-2. **Move report generation into standalone files**
-   - Python script for transforming results into HTML
-   - HTML template for presentation
+2. **Separate logic from presentation**
+   - move report generation into standalone scripts and templates
+   - keep long generated output out of core agent instructions
 
-3. **Store results in a structured format**
-   - JSON or YAML output
-   - explicit statuses such as:
+3. **Standardize output formats**
+   - use JSON or YAML for structured run results
+   - use explicit statuses such as:
      - `PASS`
      - `FAIL`
      - `WARN`
@@ -145,66 +150,75 @@ This repo will be easier to maintain if the current agent file is split into sma
      - `BLOCKED`
      - `ERROR`
 
-4. **Reduce duplication**
-   - define helper procedures once
-   - centralize evidence and verdict rules
-   - reuse a common test-result schema
+4. **Reduce duplication across assets**
+   - reuse common terminology
+   - centralize shared validation patterns
+   - define reusable evidence and verdict conventions
+
+5. **Improve traceability**
+   - map tests and outputs back to requirement IDs
+   - document assumptions, environment dependencies, and known limitations
 
 ## How to Use
 
-### Option 1: Review and improve the agent spec
-Open and refine:
+### Option 1: Use the Welcome Ads assistant
+Open and use:
+
+- `DTS_AutoStage_WelcomeAds_Assistant.prompt.md`
+
+Use it for:
+- project-context guidance
+- requirement interpretation
+- test-case drafting
+- workbook and strategy support
+- campaign/test design discussions
+
+### Option 2: Use the Audio Messages QA agent
+Open and use:
 
 - `audio-messages-tester.agent.md`
 
-Focus on:
-- deterministic execution steps
-- stricter pass/fail criteria
-- reusable helper logic
-- smaller report-generation components
-
-### Option 2: Run the workflow through an agent
-Invoke the Audio Messages QA Agent with a target scope such as:
-
-- `full suite`
-- `campaign download`
-- `playback`
-- `impressions`
-- `geo-targeting`
-- `REQ-06`
+Use it for:
+- end-to-end validation workflows
+- Android device and emulator testing
+- evidence collection from system tools
+- suite-based QA execution
+- structured result and report generation
 
 ## Output Expectations
 
-A successful QA run should produce:
+Depending on the asset used, expected outputs may include:
 
+- clarified requirements and engineering decisions
+- structured test cases or validation plans
 - device and environment metadata
-- suite-by-suite results
-- exact evidence from commands and logcat
-- a final verdict such as:
-  - `READY FOR RELEASE`
-  - `NOT READY`
-- an HTML report saved to a known output path
+- suite-by-suite QA results
+- exact evidence from commands, logs, and data stores
+- release-readiness summaries or final verdicts
+- reusable report artifacts and templates
 
 ## Maintenance Notes
 
-When updating test specs in this repo:
+When updating files in this repo:
 
-- prefer explicit, machine-checkable criteria
-- separate execution logic from presentation logic
-- keep safety rules near the top of the file
-- avoid embedding huge generated templates inside agent instructions
-- keep requirement IDs traceable to individual tests
+- prefer clear, machine-usable instructions
+- keep purpose and scope explicit near the top of each asset
+- separate context, execution logic, and presentation where possible
+- avoid embedding oversized generated content unless necessary
+- keep terminology consistent across prompts and agents
+- maintain traceability to requirements whenever applicable
 
 ## Future Enhancements
 
 Potential next steps for this repository:
 
-- move agent files into an `agents/` directory
-- add a reusable report template system
-- add sample result JSON files
+- move assets into `agents/` and `prompts/` directories
+- add reusable report template systems
+- add sample result JSON or YAML files
 - add requirement traceability documentation
-- add a changelog for QA workflow revisions
-- add repo-level conventions for agent prompt design
+- add a changelog for workflow revisions
+- define repo-level conventions for prompt and agent design
+- add contribution guidelines for maintaining shared automation assets
 
 ## License
 
