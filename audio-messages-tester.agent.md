@@ -31,8 +31,8 @@ LOG_FILTER  = grep -E "DTS-AM|DTS-AS|DTS-ASA"
 STAGING_URL = https://api.staging.cnrd.io/v1/ads/
 
 # ── Device Routing ────────────────────────────────────────────────────────────
-# REAL_DEVICE  → any connected physical Android device → Suites A–K
-# EMULATOR     → Automotive_Ultrawide AVD              → Suite L only
+# REAL_DEVICE → any connected physical Android device → Suites A–K
+# EMULATOR → Automotive_Ultrawide AVD → Suite L only
 REAL_DEVICE  = <auto-assigned in STEP 0A — physical device ADB serial>
 EMULATOR     = emulator-5554
 EMU_USER     = 10
