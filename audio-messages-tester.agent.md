@@ -30,7 +30,7 @@ RECEIVER    = com.dts.autostage.audiomsgapp.broadcastreceiver.BootCompletedRecei
 LOG_FILTER  = grep -E "DTS-AM|DTS-AS|DTS-ASA"
 STAGING_URL = https://api.staging.cnrd.io/v1/ads/
 
-# ── Device routing ────────────────────────────────────────────────────────────
+# ── Device Routing ────────────────────────────────────────────────────────────
 # REAL_DEVICE  → any connected physical Android device → Suites A–K
 # EMULATOR     → Automotive_Ultrawide AVD              → Suite L only
 REAL_DEVICE  = <auto-assigned in STEP 0A — physical device ADB serial>
