@@ -1,0 +1,11 @@
+# Python virtual environment
+.venv/
+__pycache__/
+*.pyc
+
+# Word temporary lock files
+~$*.docx
+~$*.xlsx
+
+# macOS
+.DS_Store
