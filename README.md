@@ -31,15 +31,101 @@ These assets are meant to help teams work in a repeatable, auditable, and mainta
 ## Current Contents
 
 ### Agent and prompt assets
+- `.github/agents/requirements-reviewer.agent.md`
+  Staff/Principal-level requirements review agent. Given any SRS markdown file and optional test scenario Excel files, it produces a structured review covering requirement clarity, ambiguity analysis, test plan interpretation, coverage gap analysis, and a prioritized action list. See **[Quick Start — Requirements Reviewer](#quick-start--requirements-reviewer)** below.
+
 - `DTS_AutoStage_WelcomeAds_Assistant.prompt.md`  
   Project-context assistant focused on DTS AutoStage Welcome Ads test strategy, requirement interpretation, campaign planning, workbook support, and structured engineering deliverables.
 
 - `audio-messages-tester.agent.md`  
   Execution-focused QA agent for validating DTS AutoStage Audio Messages / Welcome Ads behavior using ADB, logcat, dumpsys, sqlite, and emulator-based time-travel testing.
 
+### Requirements artifacts (SYS_SRS_4113)
+- `SYS_SRS_4113_requirements.md` — Requirements extracted from the SRS source document
+- `SYS_SRS_4113_Review.md` — Full requirements review produced by the Requirements Reviewer agent
+- `ASAM_Scenarios.xlsx` — Test scenarios authored by the Staff Engineer
+- `SY_SRS_4113_DTS AutoStage Audio Messages_V1.0.0.2.docx` — Original SRS source document
+
 ### Documentation
 - `README.md`  
   Repository overview, usage guidance, and maintenance notes.
+
+## Quick Start — Requirements Reviewer
+
+This is the fastest way for a colleague to get a Principal-level requirements review on any SRS document — no prompting experience needed.
+
+### Prerequisites
+
+| Requirement | Version / Notes |
+|-------------|----------------|
+| [VS Code](https://code.visualstudio.com/) | Latest stable |
+| [GitHub Copilot extension](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) | Must be signed in with a Copilot-enabled account |
+| [GitHub Copilot Chat extension](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) | Required for agent mode |
+| Python 3 | Any version; used to parse `.xlsx` test scenario files |
+
+### Step 1 — Clone the repository
+
+```bash
+git clone https://github.com/Saimaram1987/SystemEngineering_AIWork.git
+cd SystemEngineering_AIWork
+```
+
+Then open the folder in VS Code:
+
+```bash
+code .
+```
+
+### Step 2 — Open Copilot Chat in Agent Mode
+
+1. Press `Ctrl+Shift+I` (macOS: `Cmd+Shift+I`) to open the Copilot Chat panel.
+2. At the top of the chat panel, click the **agent/model picker** (shows the current model name or a `@` symbol).
+3. Select **"Requirements Reviewer"** from the list.
+
+> If you don't see "Requirements Reviewer", check that both Copilot and Copilot Chat extensions are installed and that you have opened this repo folder (not a parent folder). The agent is defined in `.github/agents/requirements-reviewer.agent.md` and VS Code picks it up automatically.
+
+### Step 3 — Run a review
+
+**Option A — Auto-discover (easiest):**
+Type this in the chat box and press Enter:
+```
+review
+```
+The agent will automatically find all `*requirements*.md` and `*.xlsx` files in the workspace and begin the review.
+
+**Option B — Target a specific file:**
+```
+review SYS_SRS_4113_requirements.md
+```
+
+**Option C — Review any SRS you bring:**
+1. Drop your own requirements `.md` file and/or test scenario `.xlsx` into the workspace folder.
+2. Type `review <your-filename>.md` in chat.
+
+### Step 4 — Read the output
+
+The agent writes a `_Review.md` file next to your source document (e.g. `SYS_SRS_4113_Review.md`). Open it in VS Code's Markdown Preview (`Cmd+Shift+V` / `Ctrl+Shift+V`) for a formatted view.
+
+The review contains five sections:
+
+| Section | What it tells you |
+|---------|-------------------|
+| **1. Structural Defects** | Duplicate IDs, missing IDs, typos that invert meaning, compound requirements |
+| **2. Ambiguity Analysis** | Every "shall" that cannot be tested as written, with suggested rewrites |
+| **3. Test Plan Interpretation** | Requirement grouped into test domains, with concrete test cases and boundary conditions |
+| **4. Coverage Gap Analysis** | Which requirements are NOT covered by the provided test scenarios, expressed as % |
+| **5. Prioritized Action List** | P0–P3 actions for both the requirements author and the test scenario author |
+
+### Troubleshooting
+
+| Symptom | Fix |
+|---------|-----|
+| "Requirements Reviewer" not in agent picker | Make sure you opened the repo root folder (`SystemEngineering_AIWork`), not a subfolder |
+| Agent can't parse `.xlsx` | It will auto-install `openpyxl`. Requires Python 3 on your `$PATH` |
+| Push/auth errors when committing back | Use a [GitHub Personal Access Token](https://github.com/settings/tokens) — GitHub no longer accepts passwords over HTTPS |
+| Review file not created | Check the Copilot Chat output for errors; ensure you have write permission to the workspace folder |
+
+---
 
 ## Agent Summary
 
